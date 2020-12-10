@@ -1,0 +1,47 @@
+\documentclass[] {article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{geometry}
+
+\title{Specyfikacja implementacyjna\\Projekt zespołowy}
+\author{Damian Wróblewski\\Bartłomiej Łukasik\\Karol Kociołek}
+\begin{document}
+
+\maketitle
+
+\section{Informacje ogólne}
+Program napisany będzie w języku Java\\
+Po uruchomieniu wyświetla GUI do obsługi programu
+
+\section{Struktura projektu}
+Klasy:
+\begin{itemize}
+	\item Main - klasa sterująca programem
+	\item GUI - klasa odpowiająca za graficzny interfejs użytkownika
+	\item Utils - klasa obsługująca wejścia i wyjścia i dodająca potrzebne metody
+	\item AnimationPanel - klasa przedstawiająca animacje
+	\item SettingsPanel - klasa odpowiadająca za intefejs ustawień
+	\item Algorithms - klasa zawierająca algorytmy
+\end{itemize}
+
+\section{Sposób działania algorytmu}
+\begin {enumerate}
+	\item \textbf{Wczytanie danych z pliku i zliczenie sumy maksymalnej liczby szczepionek, które może kupić każda z aptek}
+	\item \textbf{Sortowanie tablicy kontraktów według ceny jednej szczepionki} \\
+			Wykorzystanie metody sortowania szybkiego
+	\item  \textbf{Uzupełnienie minimalnej liczby szczepionek do kupienia dla każdej umowy }\\
+			Jeśli ( maksymalna suma szczepionek do kupienia przez daną aptekę - zapotrzebowanie tej aptek < maksymalna liczba szczpionek do kupienia przez daną aptekę według jednej umowy ), to (liczba szczepionek do kupienia według danej umowy = maksymalna  liczba szczepionek do kupienia - ( maksymalna suma szczepionek do kupienia przez daną aptekę - zapotrzebowanie tej aptek ))
+	\item \textbf{Przypisywanie liczby szczepionek do kupienia idąc zgodnie z kolejnościa posortowanej tablicy umów} \\
+			Liczba szczepionek do kupienia = min( maksymalna liczba szczepionek do kupienia według umowy, liczba dostępnych do kupienia szczepionek od danej fabryki, liczba brakujących szczepionek dla danej apteki)
+
+\end{enumerate}
+
+\section{Testowanie}
+Testy zostaną wykonane z pomocą narzędzia JUnit.\\
+GUI testowane ręcznie
+
+\end{document}
