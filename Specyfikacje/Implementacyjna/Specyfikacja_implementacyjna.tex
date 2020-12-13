@@ -26,19 +26,41 @@ Klasy:
 	\item AnimationPanel - klasa przedstawiająca animacje
 	\item SettingsPanel - klasa odpowiadająca za intefejs ustawień
 	\item Algorithms - klasa zawierająca algorytmy
+     	\item Node - węzeł grafu
+	\item Szpital, Obiekt, Pacjent,Droga - klasy służące do przechwywania informacji o obiektach
 \end{itemize}
 
-\section{Sposób działania algorytmu}
-\begin {enumerate}
-	\item \textbf{Wczytanie danych z pliku i zliczenie sumy maksymalnej liczby szczepionek, które może kupić każda z aptek}
-	\item \textbf{Sortowanie tablicy kontraktów według ceny jednej szczepionki} \\
-			Wykorzystanie metody sortowania szybkiego
-	\item  \textbf{Uzupełnienie minimalnej liczby szczepionek do kupienia dla każdej umowy }\\
-			Jeśli ( maksymalna suma szczepionek do kupienia przez daną aptekę - zapotrzebowanie tej aptek < maksymalna liczba szczpionek do kupienia przez daną aptekę według jednej umowy ), to (liczba szczepionek do kupienia według danej umowy = maksymalna  liczba szczepionek do kupienia - ( maksymalna suma szczepionek do kupienia przez daną aptekę - zapotrzebowanie tej aptek ))
-	\item \textbf{Przypisywanie liczby szczepionek do kupienia idąc zgodnie z kolejnościa posortowanej tablicy umów} \\
-			Liczba szczepionek do kupienia = min( maksymalna liczba szczepionek do kupienia według umowy, liczba dostępnych do kupienia szczepionek od danej fabryki, liczba brakujących szczepionek dla danej apteki)
+\section {Struktury danych}
+\begin{itemize}
+	\item lista - listy zawierające Szpitale, Obiekty,Pacjentów, Drogi
+	\item tablice 
+	\item kolejka priorytetowa w postaci kopca - struktura do obsługi algorytmu Dijkstry
 
-\end{enumerate}
+\end{itemize}
+
+
+\section{Algorytmy}
+\begin{itemize}
+\item Algorytm tworzący mapę: Algorytm Chana\\
+Wybraliśmy algorytm Chana, ponieważ ze wszystkich znanych algorytmów ma najniższą złożoność wynosząca O(n log h) - gdzie h to liczba wierzchołków zewnętrznych\\
+Jest on połączeniem dwóch prostych do implementacji algorytmów o większej złożoności przez co skutkuje mniejszą złożonościu (algorytmy Gift wrapping oraz Grahams scan)\\
+
+
+\item Algorytm szukania skrzyżowań\\
+Dla każdej drogi wyznaczamy funkcje ax+ b\\
+Dla kązdej pary dróg sprawdzamy czy parametr a różni się, jeśli tak wyznaczamy punkt przecięcia i sprawdzamy czy znajduje się w dziedzinie dróg\\
+
+
+
+
+\item Algorytm znajdujący najkrótsza droge:  Zmodyfikowany Algorytm Dijkstry\\
+Wybraliśmy algorytm Dijkstry, ponieważ ze wszystkich znanych algorytmów ma najniższą złożoność wynosząca O(n log n)\\
+Użyjemy kolejki priorytetowej ponieważ w stosunku do tablicy zmniejsza złożoność z O(n*n) do O(n log n)\\
+W programie algorytm będzie wywoływany dla każdego wierzchołka w którym zatrzyma się pacjent\\
+Algorytm będzie zwracał tablice najkrótszych dróg do szpitali które nie zostały odwiedzone. Z racji tego, że algorytm oparty jest o graf skrzyżowania traktujemy jak odzwiedzone szpitale\\
+W celu optymalizacji czasowej będziemy zapamiętywać dla każdego punktu tablice najkrótszych dróg\\
+\end{itemize}
+
 
 \section{Testowanie}
 Testy zostaną wykonane z pomocą narzędzia JUnit.\\
