@@ -5,10 +5,11 @@
 \usepackage{polski}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage[section]{placeins}
 
-\title{Specyfikacja funkcjonalna\\Projekt zespołowy}
+\title{Specyfikacja funkcjonalna\\Projekt zespołowy\\Optymalizacja przewozu pacjentów}
 \author{Bartłomiej Łukasik\\Damian Wróblewski\\Karol Kociołek}
-\date{10.12.2020}
+
 \begin{document}
 
 \maketitle
@@ -22,7 +23,6 @@ Program po dostarczeniu danych:
 \end {itemize}
 
 
-
 \section{Scenariusz użycia}
 \begin {enumerate}
 \item Przygotowanie odpowiedniego pliku z danymi
@@ -32,10 +32,18 @@ Program po dostarczeniu danych:
 \item (opcjonalnie) Dodanie pacjentów z poziomu GUI
 \item Symulacja tras
 \item Otrzymanie pliku z danymi wyjściowymi
-\item Program kończy prace
+\item Program kończy prace\\
 \end {enumerate}
+\clearpage
 
 \section{Ekran działania programu}
+
+\begin{figure}[!htb]
+\resizebox{14cm}{!}{
+\includegraphics{Ekran_dzialania.png}
+}
+\end{figure}
+
 
 
 \section{Opis pliku wejściowego}
