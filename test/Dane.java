@@ -12,7 +12,7 @@ public class Dane {
     public static List<Apteka> apteki= new ArrayList<>();
     public static List<Polaczenie> polaczenia= new ArrayList<>();
     public static int[][] result;
-    public  static double sumaKoszt;
+    public static double sumaKoszt;
 
 
 
