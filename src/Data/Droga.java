@@ -1,4 +1,4 @@
-
+package Data;
 public class Droga {
 
 	private int id;

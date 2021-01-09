@@ -1,4 +1,4 @@
-
+package Data;
 public class Szpital {
 
 	private int id;

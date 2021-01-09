@@ -1,3 +1,4 @@
+package Dijkstra;
 
 public class QueueNode {
 

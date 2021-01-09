@@ -1,32 +1,25 @@
-
-public class Obiekt {
+package Data;
+public class Pacjent {
 
 	private int id;
-	private String nazwa;
 	private int x;
 	private int y;
 
-	public Obiekt(int id, String nazwa, int x, int y) {
+	public Pacjent(int id, int x, int y) {
 		this.id = id;
-		this.nazwa = nazwa;
 		this.x = x;
 		this.y = y;
 	}
 
-	public Obiekt(String[] data, int lineNum) {
+	public Pacjent(String[] data, int lineNum) {
 		try {
 			this.id = Integer.parseInt(data[0]);
-			this.nazwa = data[1];
-			this.x = Integer.parseInt(data[2]);
-			this.y = Integer.parseInt(data[3]);
+			this.x = Integer.parseInt(data[1]);
+			this.y = Integer.parseInt(data[2]);
 		} catch (NumberFormatException e) {
 			System.out.println("Zle dane w lini " + lineNum);
 			System.exit(0);
 		}
-	}
-
-	public String getNazwa() {
-		return nazwa;
 	}
 
 	public int getX() {
@@ -40,4 +33,5 @@ public class Obiekt {
 	public int getId() {
 		return id;
 	}
+
 }
