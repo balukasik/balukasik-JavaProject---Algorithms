@@ -4,3 +4,8 @@
 /Droga.class
 /Pacjent.class
 /Dane.class
+/Node.class
+/Kolejka.class
+/Dijkstra.class
+/GraphNode.class
+/QueueNode.class
