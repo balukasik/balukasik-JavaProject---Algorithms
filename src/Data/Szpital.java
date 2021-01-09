@@ -31,6 +31,20 @@ public class Szpital {
 		}
 	}
 
+	public Szpital(String[] data, int lineNum,int id) {
+		try {
+			this.id = id;
+			this.nazwa = data[1];
+			this.x = Integer.parseInt(data[2]);
+			this.y = Integer.parseInt(data[3]);
+			this.lozka = 0;
+			this.wolneMiejsca = 0;
+		} catch (NumberFormatException e) {
+			System.out.println("Zle dane w lini " + lineNum);
+			System.exit(0);
+		}
+	}
+
 	public String getNazwa() {
 		return nazwa;
 	}

@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class Dane {
 	public static List<Szpital> szpitale = new ArrayList<>();
-	public static List<Obiekt> obiekty = new ArrayList<>();
 	public static List<Droga> drogi = new ArrayList<>();
 	public static List<Pacjent> pacjenci = new ArrayList<>();
 
@@ -37,7 +36,7 @@ public class Dane {
 							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
 							System.exit(0);
 						}
-						obiekty.add(new Obiekt(attributes, lineNum));
+						szpitale.add(new Obiekt(attributes, lineNum,szpitale.size()));
 						line = br.readLine();
 
 					} else if (sekcja == 3) {

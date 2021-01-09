@@ -1,15 +1,16 @@
 package Dijkstra;
 
 public class GraphNode {
-
+	private int id;
 	private int x;
 	private int y;
-	private int poprzednik;
-	
-	public GraphNode(int x, int y, int koszt, int prekursor) {
+	private GraphNode poprzednik;
+
+	public GraphNode(int id, int x, int y, GraphNode poprzednik) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
-		this.poprzednik = prekursor;
+		this.poprzednik = poprzednik;
 	}
 
 	public int getX() {
@@ -28,13 +29,20 @@ public class GraphNode {
 		this.y = y;
 	}
 
-	public int getPoprzednik() {
+	public GraphNode getPoprzednik() {
 		return poprzednik;
 	}
 
-	public void setPoprzednik(int poprzednik) {
+	public void setPoprzednik(GraphNode poprzednik) {
 		this.poprzednik = poprzednik;
 	}
-	
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 }

@@ -2,28 +2,28 @@ package Dijkstra;
 
 public class QueueNode {
 
-	private int value;
-	private int priority;
+	private GraphNode value;
+	private double priority;
 
-	public QueueNode(int value, int priority) {
+	public QueueNode(GraphNode value, double priority) {
 
 		this.setValue(value);
 		this.setPriority(priority);
 	}
 
-	public int getPriority() {
+	public double getPriority() {
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	public void setPriority(double priority) {
 		this.priority = priority;
 	}
 
-	public int getValue() {
+	public GraphNode getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(GraphNode value) {
 		this.value = value;
 	}
 

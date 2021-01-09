@@ -1,4 +1,5 @@
 package Dijkstra;
+
 import java.util.ArrayList;
 
 public class Kolejka {
@@ -9,7 +10,7 @@ public class Kolejka {
 		lista.add(node);
 	}
 
-	public QueueNode pull() {
+	public GraphNode pobierz() {
 
 		if (lista.isEmpty()) {
 			return null;
@@ -21,11 +22,11 @@ public class Kolejka {
 			}
 		}
 		lista.remove(lowest);
-		return lowest;
+		return lowest.getValue();
 	}
 
-	public boolean isEmpty() {
-		return lista.isEmpty();
+	public boolean isNotEmpty() {
+		return !lista.isEmpty();
 	}
 
 }
