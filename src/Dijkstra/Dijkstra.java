@@ -3,9 +3,18 @@ package Dijkstra;
 import java.util.ArrayList;
 
 import Data.Droga;
+import Data.Szpital;
 
 public class Dijkstra {
-	public void algorithm(GraphNode[] nodes, Droga[] drogi, int startId) {
+	public GraphNode[] nodes;
+	public Dijkstra(ArrayList<Szpital> szpitale) {
+		GraphNode[] nodes = new GraphNode[szpitale.size()];
+		for (int i =0; i< szpitale.size();i++) {
+			nodes[i]= new GraphNode(szpitale.get(i).getId(),null);
+		}
+		this.nodes = nodes;
+	}
+	public double[] algorithm(GraphNode[] nodes, ArrayList<Droga> drogi, int startId) {
 		double[] d = new double[nodes.length];
 		for (int i = 0; i < nodes.length; i++) {
 			d[i] = Double.MAX_VALUE;
@@ -31,6 +40,8 @@ public class Dijkstra {
 					nodes[sasiad.getId()].setPoprzednik(nodes[startId]);
 				}
 			}
+			
 		}
+		return d;
 	}
 }

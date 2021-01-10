@@ -4,9 +4,9 @@ public class Droga {
 	private int id;
 	private int idSzpitala1;
 	private int idSzpitala2;
-	private int odlglosc;
+	private double odlglosc;
 
-	public Droga(int id, int idSzpitala1, int idSzpitala2, int odlglosc) {
+	public Droga(int id, int idSzpitala1, int idSzpitala2, double odlglosc) {
 		this.id = id;
 		this.idSzpitala1 = idSzpitala1;
 		this.idSzpitala2 = idSzpitala2;
@@ -33,11 +33,11 @@ public class Droga {
 		return idSzpitala2;
 	}
 
-	public int getOdlglosc() {
+	public double getOdlglosc() {
 		return odlglosc;
 	}
 
-	public int getId() {
+	public double getId() {
 		return id;
 	}
 

@@ -5,8 +5,8 @@ public class Sasiad extends GraphNode {
 	
 	private double koszt;
 
-	public Sasiad(int id, int x, int y, GraphNode poprzednik,int koszt) {
-		super(id, x, y, poprzednik);
+	public Sasiad(int id, GraphNode poprzednik,int koszt) {
+		super(id, poprzednik);
 		this.setKoszt(koszt);
 	}
 

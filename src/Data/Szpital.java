@@ -3,12 +3,12 @@ public class Szpital {
 
 	private int id;
 	private String nazwa;
-	private int x;
-	private int y;
+	private double x;
+	private double y;
 	private int lozka;
 	private int wolneMiejsca;
 
-	public Szpital(int id, String nazwa, int x, int y, int lozka, int wolneMiejsca) {
+	public Szpital(int id, String nazwa, double x, double y, int lozka, int wolneMiejsca) {
 		this.id = id;
 		this.nazwa = nazwa;
 		this.x = x;
@@ -49,11 +49,11 @@ public class Szpital {
 		return nazwa;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
