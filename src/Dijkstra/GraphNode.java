@@ -3,10 +3,11 @@ package Dijkstra;
 public class GraphNode {
 	private int id;
 	private GraphNode poprzednik;
-
-	public GraphNode(int id, GraphNode poprzednik) {
+	private double koszt;
+	public GraphNode(int id, GraphNode poprzednik,double koszt) {
 		this.id = id;
 		this.poprzednik = poprzednik;
+		this.koszt = koszt;
 	}
 
 	public GraphNode getPoprzednik() {
@@ -24,5 +25,11 @@ public class GraphNode {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public double getKoszt() {
+		return koszt;
+	}
 
+	public void setKoszt(double koszt) {
+		this.koszt = koszt;
+	}
 }

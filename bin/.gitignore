@@ -1,16 +1,5 @@
-/Main.class
-/Szpital.class
-/Obiekt.class
-/Droga.class
-/Pacjent.class
-/Dane.class
-/Node.class
-/Kolejka.class
-/Dijkstra.class
-/GraphNode.class
-/QueueNode.class
-/Obsługa danych/
+/GUI/
+/img/
 /Data/
-/Main/
 /Dijkstra/
-/asdf.class
+/Main.class

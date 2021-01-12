@@ -37,7 +37,7 @@ public class Droga {
 		return odlglosc;
 	}
 
-	public double getId() {
+	public int getId() {
 		return id;
 	}
 

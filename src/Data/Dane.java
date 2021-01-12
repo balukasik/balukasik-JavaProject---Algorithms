@@ -37,7 +37,7 @@ public class Dane {
 							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
 							System.exit(0);
 						}
-						szpitale.add(new Obiekt(attributes, lineNum, szpitale.size()));
+						szpitale.add(new Obiekt(attributes, lineNum, szpitale.size()+1));
 						line = br.readLine();
 
 					} else if (sekcja == 3) {
@@ -88,16 +88,18 @@ public class Dane {
 
 						if (skrzyzowanie != null) {
 							szpitale.add(skrzyzowanie);
-							drogiTmp.remove(drogiTmp.indexOf(droga));
-							drogiTmp.remove(drogiTmp.indexOf(droga2));
+							
 							Droga[] drogiZastepcze = podzialDrogi(droga, skrzyzowanie);
 							for (Droga d : drogiZastepcze) {
 								drogiTmp.add(d);
 							}
+							drogiTmp.remove(drogiTmp.indexOf(droga));
+							drogi = drogiTmp;
 							drogiZastepcze = podzialDrogi(droga2, skrzyzowanie);
 							for (Droga d : drogiZastepcze) {
 								drogiTmp.add(d);
 							}
+							drogiTmp.remove(drogiTmp.indexOf(droga2));
 							break;
 						}
 					}
@@ -111,39 +113,39 @@ public class Dane {
 	}
 
 	private Droga[] podzialDrogi(Droga droga, Szpital skrzyzowanie) {
-		Droga[] drogi = new Droga[4];
-		double a = szpitale.get(droga.getIdSzpitala1()).getX() - skrzyzowanie.getX();
-		double b = szpitale.get(droga.getIdSzpitala1()).getY() - skrzyzowanie.getY();
+		Droga[] drogi = new Droga[2];
+		double a = szpitale.get(droga.getIdSzpitala1()-1).getX() - skrzyzowanie.getX();
+		double b = szpitale.get(droga.getIdSzpitala1()-1).getY() - skrzyzowanie.getY();
 		double d1 = Math.sqrt((a * a) + (b * b));
-		a = szpitale.get(droga.getIdSzpitala2()).getX() - skrzyzowanie.getX();
-		b = szpitale.get(droga.getIdSzpitala2()).getY() - skrzyzowanie.getY();
+		a = szpitale.get(droga.getIdSzpitala2()-1).getX() - skrzyzowanie.getX();
+		b = szpitale.get(droga.getIdSzpitala2()-1).getY() - skrzyzowanie.getY();
 		double d2 = Math.sqrt((a * a) + (b * b));
-		drogi[0] = new Droga(drogi.length, droga.getIdSzpitala1(), skrzyzowanie.getId(),
+		drogi[0] = new Droga(droga.getId(), droga.getIdSzpitala1(), skrzyzowanie.getId(),
 				droga.getOdlglosc() * (d1 / (d1 + d2)));
-		drogi[1] = new Droga(drogi.length + 1, droga.getIdSzpitala2(), skrzyzowanie.getId(),
+		drogi[1] = new Droga(this.drogi.size()+1, droga.getIdSzpitala2(), skrzyzowanie.getId(),
 				droga.getOdlglosc() * (d2 / (d1 + d2)));
 		return drogi;
 	}
 
 	private Szpital skrzyzowanie(int a1, int a2, int b1, int b2) {
-		double x1 = szpitale.get(a1).getX();
-		double y1 = szpitale.get(a1).getY();
-		double x2 = szpitale.get(a2).getX();
-		double y2 = szpitale.get(a2).getY();
-		double x3 = szpitale.get(b1).getX();
-		double y3 = szpitale.get(b1).getY();
-		double x4 = szpitale.get(b2).getX();
-		double y4 = szpitale.get(b2).getY();
+		double x1 = szpitale.get(a1-1).getX();
+		double y1 = szpitale.get(a1-1).getY();
+		double x2 = szpitale.get(a2-1).getX();
+		double y2 = szpitale.get(a2-1).getY();
+		double x3 = szpitale.get(b1-1).getX();
+		double y3 = szpitale.get(b1-1).getY();
+		double x4 = szpitale.get(b2-1).getX();
+		double y4 = szpitale.get(b2-1).getY();
 		double d = ((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4));
 		if (d == 0) {
 			return null;
 		} else {
 			double t = (((x1 - x3) * (y3 - y4)) - ((y1 - y3) * (x3 - x4))) / d;
-			double u = (((x1 - x2) * (y1 - y3)) - ((y1 - y2) * (x1 - x3))) / d;
-			if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
+			double u = -(((x1 - x2) * (y1 - y3)) - ((y1 - y2) * (x1 - x3))) / d;
+			if (t > 0 && t < 1 && u > 0 && u < 1) {
 				double px = x1 + t * (x2 - x1);
 				double py = y1 + t * (y2 - y1);
-				return new Szpital(szpitale.size(), "skrzyzowanie" + szpitale.size(), px, py, 0, 0);
+				return new Szpital(szpitale.size()+1, "skrzyzowanie" + (szpitale.size()+1), px, py, 0, 0);
 			} else {
 				return null;
 			}

@@ -10,7 +10,7 @@ public class Dijkstra {
 	public Dijkstra(ArrayList<Szpital> szpitale) {
 		GraphNode[] nodes = new GraphNode[szpitale.size()];
 		for (int i =0; i< szpitale.size();i++) {
-			nodes[i]= new GraphNode(szpitale.get(i).getId(),null);
+			nodes[i]= new GraphNode(szpitale.get(i).getId(),null,0);
 		}
 		this.nodes = nodes;
 	}
@@ -26,18 +26,18 @@ public class Dijkstra {
 		}
 		while (q.isNotEmpty()) {
 			GraphNode tmp = q.pobierz();
-			ArrayList<Sasiad> sasiedzi = new ArrayList<Sasiad>();
+			ArrayList<GraphNode> sasiedzi = new ArrayList<GraphNode>();
 			for (Droga droga : drogi) {
 				if (droga.getIdSzpitala1() == tmp.getId()) {
-					sasiedzi.add((Sasiad) nodes[droga.getIdSzpitala2()]);
+					sasiedzi.add( nodes[droga.getIdSzpitala2()-1]);
 				} else if (droga.getIdSzpitala2() == tmp.getId()) {
-					sasiedzi.add((Sasiad) nodes[droga.getIdSzpitala1()]);
+					sasiedzi.add( nodes[droga.getIdSzpitala1()-1]);
 				}
 			}
-			for (Sasiad sasiad : sasiedzi) {
-				if (d[sasiad.getId()] > (d[startId] + sasiad.getKoszt())) {
-					d[sasiad.getId()] = d[startId] + sasiad.getKoszt();
-					nodes[sasiad.getId()].setPoprzednik(nodes[startId]);
+			for (GraphNode sasiad : sasiedzi) {
+				if (d[sasiad.getId()-1] > (d[startId] + sasiad.getKoszt())) {
+					d[sasiad.getId()-1] = d[startId] + sasiad.getKoszt();
+					nodes[sasiad.getId()-1].setPoprzednik(nodes[startId]);
 				}
 			}
 			
