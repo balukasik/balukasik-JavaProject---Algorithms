@@ -2,7 +2,7 @@ package Data;
 
 public class Obiekt extends Szpital{
 
-	public Obiekt(int id, String nazwa, int x, int y) {
+	public Obiekt(int id, String nazwa, double x, double y) {
 		super(id,nazwa,x,y,0,0);
 	}
 

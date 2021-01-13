@@ -16,6 +16,7 @@ public class Main {
 	
 		data.skrzyzowania();
 
+
 		Dijkstra dijkstra = new Dijkstra(data.szpitale);
 		DoubleV2 d[] = dijkstra.algorithm(dijkstra.nodes, data.drogi, 1);
 

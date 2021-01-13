@@ -45,8 +45,8 @@ public class Jarvis {
 
 		Szpital p = new Szpital(points.get(0));
 		for(int i=1;i<points.size();i++) {
-			int x = points.get(i).getX();
-			int y = points.get(i).getY();
+			double x = points.get(i).getX();
+			double y = points.get(i).getY();
 			if(x < p.getX() || (x == p.getX() && y<p.getY())) {
 				p=points.get(i);
 			}
