@@ -2,13 +2,13 @@ package IsInside;
 
 public class Point
 {
-    int x;
-    int y;
+    double x;
+    double y;
 
     Point()
     {}
 
-    Point(int p, int q)
+    Point(double p, double q)
     {
         x = p;
         y = q;
