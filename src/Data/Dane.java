@@ -7,9 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Dane {
-	public ArrayList<Szpital> szpitale = new ArrayList<>();
-	public ArrayList<Droga> drogi = new ArrayList<>();
-	public ArrayList<Pacjent> pacjenci = new ArrayList<>();
+	public static ArrayList<Szpital> szpitale = new ArrayList<>();
+	public static ArrayList<Droga> drogi = new ArrayList<>();
+	public static ArrayList<Pacjent> pacjenci = new ArrayList<>();
 
 	public void read(String fileName) {
 		int sekcja = 0;

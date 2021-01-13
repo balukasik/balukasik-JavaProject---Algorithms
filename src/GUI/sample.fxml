@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="970.0" prefWidth="1200.0" style="-fx-background-color: #948C75;" stylesheets="main.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+    <children>
+        <AnchorPane layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="870.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;">
+            <children>
+                <AnchorPane fx:id="map" layoutX="20.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="830.0" />
+            </children></AnchorPane>
+        <AnchorPane layoutX="898.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="797.0" prefWidth="288.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;" />
+        <Button id="start" fx:id="start" alignment="CENTER" layoutX="898.0" layoutY="897.0" mnemonicParsing="false" onAction="#startClicked" prefHeight="59.0" prefWidth="288.0" stylesheets="@main.css" text="Start" textFill="#7a6a53" wrapText="true" AnchorPane.rightAnchor="14.0">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font></Button>
+        <Button layoutX="684.0" layoutY="897.0" mnemonicParsing="false" onMouseClicked="#openFileClicked" prefHeight="59.0" prefWidth="200.0" stylesheets="@main.css" text="Wczytaj mapę" textAlignment="JUSTIFY" textFill="#7a6a53" wrapText="true" AnchorPane.rightAnchor="316.0">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Button>
+        <Button layoutX="532.0" layoutY="897.0" mnemonicParsing="false" onMouseClicked="#openFileClicked" prefHeight="59.0" prefWidth="270.0" stylesheets="@main.css" text="Wczytaj pacjentów" textFill="#7a6a53" AnchorPane.rightAnchor="530.0">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font></Button>
+        <Slider layoutX="14.0" layoutY="897.0" prefHeight="16.0" prefWidth="372.0" style="-fx-background-color: #D9CEB #D9CEB2;" />
+        <Label alignment="CENTER" layoutX="14.0" layoutY="920.0" prefHeight="36.0" prefWidth="372.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;" text="Prędkość animacji" textFill="#7a6a53">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="objectName" alignment="CENTER" layoutX="898.0" layoutY="14.0" prefHeight="59.0" prefWidth="288.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;" textFill="#7a6a53">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
