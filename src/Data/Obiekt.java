@@ -6,6 +6,10 @@ public class Obiekt extends Szpital{
 		super(id,nazwa,x,y,0,0);
 	}
 
+	public Obiekt(Obiekt obiekt) {
+		super(obiekt);
+	}
+
 	public Obiekt(String[] data, int lineNum,int id) {
 		super(data,lineNum,id);
 	}

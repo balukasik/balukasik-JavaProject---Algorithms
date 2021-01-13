@@ -3,12 +3,13 @@ public class Szpital {
 
 	private int id;
 	private String nazwa;
-	private double x;
-	private double y;
+	private int x;
+	private int y;
 	private int lozka;
 	private int wolneMiejsca;
 
-	public Szpital(int id, String nazwa, double x, double y, int lozka, int wolneMiejsca) {
+
+	public Szpital(int id, String nazwa, int x, int y, int lozka, int wolneMiejsca) {
 		this.id = id;
 		this.nazwa = nazwa;
 		this.x = x;
@@ -31,6 +32,7 @@ public class Szpital {
 		}
 	}
 
+
 	public Szpital(String[] data, int lineNum,int id) {
 		try {
 			this.id = id;
@@ -45,15 +47,27 @@ public class Szpital {
 		}
 	}
 
+	public Szpital(int id, String nazwa, int x, int y, int wolne_lozka) {
+	}
+
+	public Szpital(Szpital obiekt) {
+		this.id = obiekt.getId();
+		this.nazwa = obiekt.getNazwa();
+		this.x = obiekt.getX();
+		this.y = obiekt.getY();
+		this.lozka = obiekt.getLozka();
+		this.wolneMiejsca = obiekt.getWolne_lozka();
+	}
+
 	public String getNazwa() {
 		return nazwa;
 	}
 
-	public double getX() {
+	public int getX() {
 		return x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return y;
 	}
 
