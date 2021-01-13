@@ -17,9 +17,10 @@ public class Kolejka {
 		}
 		QueueNode lowest = lista.get(0);
 		for (QueueNode node : lista) {
-			if (lowest.getPriority() < node.getPriority()) {
-				lowest = node;
-			}
+
+				if (lowest.getPriority() > node.getPriority()) {
+					lowest = node;
+				}
 		}
 		lista.remove(lowest);
 		return lowest.getValue();
@@ -28,5 +29,6 @@ public class Kolejka {
 	public boolean isNotEmpty() {
 		return !lista.isEmpty();
 	}
+
 
 }
