@@ -13,7 +13,7 @@
                 <AnchorPane fx:id="map" layoutX="20.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="830.0" />
             </children></AnchorPane>
         <AnchorPane layoutX="898.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="797.0" prefWidth="288.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;" />
-        <Button id="start" fx:id="start" alignment="CENTER" layoutX="898.0" layoutY="897.0" mnemonicParsing="false" onAction="#startClicked" prefHeight="59.0" prefWidth="288.0" stylesheets="@main.css" text="Start" textFill="#7a6a53" wrapText="true" AnchorPane.rightAnchor="14.0">
+        <Button id="start" fx:id="start" alignment="CENTER" layoutX="898.0" layoutY="897.0" mnemonicParsing="false" onAction="#startClicked" onMouseClicked="#startAnimation" prefHeight="59.0" prefWidth="288.0" stylesheets="@main.css" text="Start" textFill="#7a6a53" wrapText="true" AnchorPane.rightAnchor="14.0">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font></Button>
@@ -26,7 +26,7 @@
             <font>
                 <Font name="System Bold" size="24.0" />
             </font></Button>
-        <Slider layoutX="14.0" layoutY="897.0" prefHeight="16.0" prefWidth="372.0" style="-fx-background-color: #D9CEB #D9CEB2;" />
+        <Slider fx:id="animationSpeedSlider" layoutX="14.0" layoutY="897.0" max="5000.0" min="1.0" prefHeight="16.0" prefWidth="372.0" style="-fx-background-color: #D9CEB #D9CEB2;" value="1000.0" />
         <Label alignment="CENTER" layoutX="14.0" layoutY="920.0" prefHeight="36.0" prefWidth="372.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;" text="Prędkość animacji" textFill="#7a6a53">
             <font>
                 <Font name="System Bold" size="24.0" />

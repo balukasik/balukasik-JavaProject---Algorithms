@@ -1,9 +1,14 @@
 package Data;
+
+import javafx.scene.Node;
+import javafx.scene.shape.Circle;
+
 public class Pacjent {
 
 	private int id;
 	private int x;
 	private int y;
+    private Node node;
 
 	public Pacjent(int id, int x, int y) {
 		this.id = id;
@@ -34,4 +39,11 @@ public class Pacjent {
 		return id;
 	}
 
+	public void setNode(Node node) {
+	    this.node = node;
+    }
+
+    public Node getNode() {
+	    return node;
+    }
 }
