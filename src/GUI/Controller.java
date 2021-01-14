@@ -61,7 +61,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    public void openFileClicked(Event e) {
+    public void openMapFileClicked(Event e) {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
         data.read(file.getAbsolutePath());
@@ -80,6 +80,13 @@ public class Controller implements Initializable {
                     convertPoint(szpital2.getX(), szpital2.getY())[1]));
         }
 
+    }
+
+    @FXML
+    public void openPatientFileClicked(Event e) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+        //TODO
     }
 
     private void calculateScaleMap() {

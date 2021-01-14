@@ -17,12 +17,12 @@
             <font>
                 <Font name="System Bold" size="24.0" />
             </font></Button>
-        <Button layoutX="684.0" layoutY="897.0" mnemonicParsing="false" onMouseClicked="#openFileClicked" prefHeight="59.0" prefWidth="200.0" stylesheets="@main.css" text="Wczytaj mapę" textAlignment="JUSTIFY" textFill="#7a6a53" wrapText="true" AnchorPane.rightAnchor="316.0">
+        <Button layoutX="684.0" layoutY="897.0" mnemonicParsing="false" onMouseClicked="#openMapFileClicked" prefHeight="59.0" prefWidth="200.0" stylesheets="@main.css" text="Wczytaj mapę" textAlignment="JUSTIFY" textFill="#7a6a53" wrapText="true" AnchorPane.rightAnchor="316.0">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
         </Button>
-        <Button layoutX="532.0" layoutY="897.0" mnemonicParsing="false" onMouseClicked="#openFileClicked" prefHeight="59.0" prefWidth="270.0" stylesheets="@main.css" text="Wczytaj pacjentów" textFill="#7a6a53" AnchorPane.rightAnchor="530.0">
+        <Button layoutX="532.0" layoutY="897.0" mnemonicParsing="false" onMouseClicked="#openPatientFileClicked" prefHeight="59.0" prefWidth="270.0" stylesheets="@main.css" text="Wczytaj pacjentów" textFill="#7a6a53" AnchorPane.rightAnchor="530.0">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font></Button>
