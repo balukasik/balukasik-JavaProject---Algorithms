@@ -3,6 +3,7 @@ package Jarvis;
 import java.util.ArrayList;
 
 import Data.Szpital;
+import javafx.scene.chart.PieChart.Data;
 import Data.Dane;
 
 import java.util.*;

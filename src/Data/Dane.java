@@ -11,7 +11,7 @@ public class Dane {
 	public static ArrayList<Droga> drogi = new ArrayList<>();
 	public static ArrayList<Pacjent> pacjenci = new ArrayList<>();
 
-	public void read(String fileName) {
+	public static void read(String fileName) {
 		int sekcja = 0;
 		int lineNum = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName));) {
@@ -37,7 +37,7 @@ public class Dane {
 							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
 							System.exit(0);
 						}
-						szpitale.add(new Obiekt(attributes, lineNum, szpitale.size()+1));
+						szpitale.add(new Obiekt(attributes, lineNum, szpitale.size() + 1));
 						line = br.readLine();
 
 					} else if (sekcja == 3) {
@@ -49,15 +49,6 @@ public class Dane {
 						drogi.add(new Droga(attributes, lineNum));
 						line = br.readLine();
 					} else if (sekcja == 4) {
-						String[] attributes = line.trim().split("\\s*\\|\\s*");
-						if (attributes.length != 3) {
-							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
-							System.exit(0);
-						}
-						pacjenci.add(new Pacjent(attributes, lineNum));
-						line = br.readLine();
-
-					} else if (sekcja == 5) {
 						break;
 					} else {
 						System.out.println("brak lini rozpoczynajacej sie zankiem #");
@@ -67,8 +58,8 @@ public class Dane {
 					line = br.readLine();
 				}
 			}
-			if (sekcja != 4) {
-				System.out.println("brak 4 zbiorow danych");
+			if (sekcja != 3) {
+				System.out.println("brak 3 zbiorow danych ( Szpitale, Drogi, Obiekty)");
 				System.exit(0);
 			}
 		} catch (IOException ioe) {
@@ -76,7 +67,46 @@ public class Dane {
 		}
 	}
 
-	public void skrzyzowania() {
+	public static void readPacjent(String fileName) {
+		int sekcja = 0;
+		int lineNum = 0;
+		try (BufferedReader br = new BufferedReader(new FileReader(fileName));) {
+			String line = br.readLine();
+			while (line != null) {
+				lineNum++;
+				if (line.length() > 0) {
+					if (line.charAt(0) == '#') {
+						sekcja++;
+						line = br.readLine();
+					} else if (sekcja == 1) {
+						String[] attributes = line.trim().split("\\s*\\|\\s*");
+						if (attributes.length != 3) {
+							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
+							System.exit(0);
+						}
+						pacjenci.add(new Pacjent(attributes, lineNum));
+						line = br.readLine();
+
+					} else if (sekcja == 2) {
+						break;
+					} else {
+						System.out.println("brak lini rozpoczynajacej sie zankiem #");
+						System.exit(0);
+					}
+				} else {
+					line = br.readLine();
+				}
+			}
+			if (sekcja != 1) {
+				System.out.println("brak zbiorow danych (Pacjenci)");
+				System.exit(0);
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+
+	public static void skrzyzowania() {
 		try {
 
 			ArrayList<Droga> drogiTmp = drogi;
@@ -88,7 +118,7 @@ public class Dane {
 
 						if (skrzyzowanie != null) {
 							szpitale.add(skrzyzowanie);
-							
+
 							Droga[] drogiZastepcze = podzialDrogi(droga, skrzyzowanie);
 							for (Droga d : drogiZastepcze) {
 								drogiTmp.add(d);
@@ -108,34 +138,34 @@ public class Dane {
 
 			drogi = drogiTmp;
 		} catch (ConcurrentModificationException e) {
-			
+
 		}
 	}
 
-	private Droga[] podzialDrogi(Droga droga, Szpital skrzyzowanie) {
+	private static Droga[] podzialDrogi(Droga droga, Szpital skrzyzowanie) {
 		Droga[] drogi = new Droga[2];
-		double a = szpitale.get(droga.getIdSzpitala1()-1).getX() - skrzyzowanie.getX();
-		double b = szpitale.get(droga.getIdSzpitala1()-1).getY() - skrzyzowanie.getY();
+		double a = szpitale.get(droga.getIdSzpitala1() - 1).getX() - skrzyzowanie.getX();
+		double b = szpitale.get(droga.getIdSzpitala1() - 1).getY() - skrzyzowanie.getY();
 		double d1 = Math.sqrt((a * a) + (b * b));
-		a = szpitale.get(droga.getIdSzpitala2()-1).getX() - skrzyzowanie.getX();
-		b = szpitale.get(droga.getIdSzpitala2()-1).getY() - skrzyzowanie.getY();
+		a = szpitale.get(droga.getIdSzpitala2() - 1).getX() - skrzyzowanie.getX();
+		b = szpitale.get(droga.getIdSzpitala2() - 1).getY() - skrzyzowanie.getY();
 		double d2 = Math.sqrt((a * a) + (b * b));
 		drogi[0] = new Droga(droga.getId(), droga.getIdSzpitala1(), skrzyzowanie.getId(),
 				droga.getOdlglosc() * (d1 / (d1 + d2)));
-		drogi[1] = new Droga(this.drogi.size()+1, droga.getIdSzpitala2(), skrzyzowanie.getId(),
+		drogi[1] = new Droga(Dane.drogi.size() + 1, droga.getIdSzpitala2(), skrzyzowanie.getId(),
 				droga.getOdlglosc() * (d2 / (d1 + d2)));
 		return drogi;
 	}
 
-	private Szpital skrzyzowanie(int a1, int a2, int b1, int b2) {
-		double x1 = szpitale.get(a1-1).getX();
-		double y1 = szpitale.get(a1-1).getY();
-		double x2 = szpitale.get(a2-1).getX();
-		double y2 = szpitale.get(a2-1).getY();
-		double x3 = szpitale.get(b1-1).getX();
-		double y3 = szpitale.get(b1-1).getY();
-		double x4 = szpitale.get(b2-1).getX();
-		double y4 = szpitale.get(b2-1).getY();
+	private static Szpital skrzyzowanie(int a1, int a2, int b1, int b2) {
+		double x1 = szpitale.get(a1 - 1).getX();
+		double y1 = szpitale.get(a1 - 1).getY();
+		double x2 = szpitale.get(a2 - 1).getX();
+		double y2 = szpitale.get(a2 - 1).getY();
+		double x3 = szpitale.get(b1 - 1).getX();
+		double y3 = szpitale.get(b1 - 1).getY();
+		double x4 = szpitale.get(b2 - 1).getX();
+		double y4 = szpitale.get(b2 - 1).getY();
 		double d = ((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4));
 		if (d == 0) {
 			return null;
@@ -145,11 +175,28 @@ public class Dane {
 			if (t > 0 && t < 1 && u > 0 && u < 1) {
 				double px = x1 + t * (x2 - x1);
 				double py = y1 + t * (y2 - y1);
-				return new Szpital(szpitale.size()+1, "skrzyzowanie" + (szpitale.size()+1), px, py, 0, 0);
+				return new Szpital(szpitale.size() + 1, "skrzyzowanie" + (szpitale.size() + 1), px, py, 0, 0);
 			} else {
 				return null;
 			}
 		}
+	}
+
+	public static void clearObjects() {
+		ArrayList<Szpital> obiektyTmp = new ArrayList<>();
+		for (Szpital s : szpitale) {
+			if (s instanceof Obiekt) {
+				obiektyTmp.add(s);
+			}
+		}
+		szpitale.removeAll(obiektyTmp);
+	}
+
+	public void clearAll() {
+		szpitale = new ArrayList<>();
+		drogi = new ArrayList<>();
+		pacjenci = new ArrayList<>();
+
 	}
 
 }
