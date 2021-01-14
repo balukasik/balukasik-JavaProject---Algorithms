@@ -17,7 +17,7 @@ public class Main {
 		Dane.readPacjent("data/daneTestowePacjenci.txt");
 
 
-
+		
 		List<Szpital> result = new ArrayList<Szpital>();
 		Jarvis jarvis=new Jarvis();
 		result=jarvis.convexHull();
@@ -31,19 +31,16 @@ public class Main {
 
 		Dane.clearObjects();
 		Dane.skrzyzowania();
-		Dijkstra dijkstra = new Dijkstra(Dane.szpitale);
-		DoubleV2 d[] = dijkstra.algorithm(dijkstra.nodes, Dane.drogi, 1);
-		System.out.println("\n koniec");
-		for (Szpital s : Dane.szpitale) {
-			System.out.println(s.getNazwa());
-		}
-		for (Szpital szpital : Dane.szpitale) {
-			System.out.println(szpital.getNazwa() + " odleg³oœæ: " + d[szpital.getId()].value);
-		}
+	
 		
 		Pacjent szpital=new Pacjent(0,9,0);
 		IsInside isInside=new IsInside();
 		System.out.println(isInside.isInside(result,szpital));
+		
+		int[] test = Dijkstra.drogaPacjenta(1);
+		for (int t : test) {
+			System.out.println(t);
+		}
 		
 
 	}

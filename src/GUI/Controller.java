@@ -4,6 +4,8 @@ import Data.Dane;
 import Data.Droga;
 import Data.Pacjent;
 import Data.Szpital;
+import Dijkstra.Dijkstra;
+import Dijkstra.DoubleV2;
 import Jarvis.Jarvis;
 import javafx.animation.PathTransition;
 import javafx.beans.value.ChangeListener;
@@ -204,7 +206,9 @@ public class Controller implements Initializable {
         }
         Path path = new Path();
         path.getElements().add(new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
-        //Tu dodaÄ‡ szpital w kolejnoÅ›ci
+       	//id wêz³a startowego
+        int startId = 1;
+        Dijkstra.drogaPacjenta(startId);
         for(Szpital szpital : Dane.szpitale) {
             path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
         }
