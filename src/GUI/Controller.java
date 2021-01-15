@@ -206,15 +206,17 @@ public class Controller implements Initializable {
         }
         Path path = new Path();
         path.getElements().add(new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
-       	//id wêz³a startowego
+       	//id wï¿½zï¿½a startowego
         int startId = 1;
-        Dijkstra.drogaPacjenta(startId);
-        for(Szpital szpital : Dane.szpitale) {
+        int[] drogaPacjenta = Dijkstra.drogaPacjenta(startId);
+        System.out.println(drogaPacjenta.length);
+        for(int i : drogaPacjenta) {
+            Szpital szpital = Dane.szpitale.get(i);
             path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
         }
-        path.getElements().add(new LineTo(convertPointX(100), convertPointY(100)));
+        Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).decreaseWolneMiejsca();
 
-        PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * (Dane.szpitale.size() + 1 )), path, pacjent.getNode());
+        PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * drogaPacjenta.length), path, pacjent.getNode());
         pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

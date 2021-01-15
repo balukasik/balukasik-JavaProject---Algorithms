@@ -86,4 +86,8 @@ public class Szpital {
 	public int getId() {
 		return id;
 	}
+
+	public void decreaseWolneMiejsca() {
+		wolneMiejsca--;
+	}
 }
