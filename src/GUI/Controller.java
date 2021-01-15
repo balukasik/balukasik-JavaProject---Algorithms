@@ -20,13 +20,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -71,14 +80,13 @@ public class Controller implements Initializable {
     @FXML
     private Label objectName;
 
+    @FXML
+    private ScrollPane scrollPane;
+
+    Text logs = new Text("");
+
     public Controller() throws FileNotFoundException {
 
-    }
-
-
-    @FXML
-    public void startClicked(Event e) {
-        System.out.println("Start clicked");
     }
 
     @FXML
@@ -100,12 +108,6 @@ public class Controller implements Initializable {
         border.setFill(Color.rgb(205, 190, 152));
         map.getChildren().add(border);
 
-        for (Szpital szpital : Dane.szpitale) {
-            Circle circle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 10);
-            circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> objectName.setText(szpital.getNazwa()));
-            map.getChildren().add(circle);
-        }
-
         for (Droga droga : Dane.drogi) {
             Szpital szpital1 = Dane.szpitale.get(droga.getIdSzpitala1() - 1);
             Szpital szpital2 = Dane.szpitale.get(droga.getIdSzpitala2() - 1);
@@ -115,6 +117,29 @@ public class Controller implements Initializable {
                     convertPointY(szpital2.getY()));
             line.setStrokeWidth(3);
             map.getChildren().add(line);
+        }
+
+        for (Szpital szpital : Dane.szpitale) {
+            Circle circle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 10);
+            Circle enteredCircle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 20);
+            enteredCircle.setFill(Paint.valueOf("#948C75"));
+            Text freeSpaceText = new Text(circle.getCenterX(), circle.getCenterY(), Integer.toString(szpital.getWolne_lozka()));
+            freeSpaceText.setFont(Font.font("System", FontWeight.BOLD, 12));
+            freeSpaceText.setX(freeSpaceText.getX() - freeSpaceText.getLayoutBounds().getWidth() / 2);
+            freeSpaceText.setY(freeSpaceText.getY() + freeSpaceText.getLayoutBounds().getHeight() / 4);
+            enteredCircle.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
+                map.getChildren().remove(enteredCircle);
+                map.getChildren().remove(freeSpaceText);
+                objectName.setText(szpital.getNazwa());
+            });
+            circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
+                objectName.setText(szpital.getNazwa());
+                freeSpaceText.setText(Integer.toString(szpital.getWolne_lozka()));
+                map.getChildren().add(enteredCircle);
+                map.getChildren().add(freeSpaceText);
+            });
+            circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> objectName.setText(szpital.getNazwa()));
+            map.getChildren().add(circle);
         }
 
         map.addEventHandler(MouseEvent.MOUSE_CLICKED, this::addPatientOnClick);
@@ -209,17 +234,19 @@ public class Controller implements Initializable {
        	//id w�z�a startowego
         int startId = 1;
         int[] drogaPacjenta = Dijkstra.drogaPacjenta(startId);
+        String logText = "Pacjent " + pacjent.getId() + ":\n";
         System.out.println(drogaPacjenta.length);
         for(int i : drogaPacjenta) {
             Szpital szpital = Dane.szpitale.get(i);
+            logText += "\t" + szpital.getNazwa() + "\n";
             path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
         }
-        Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).decreaseWolneMiejsca();
-
+        logs.setText( logText+ logs.getText());
         PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * drogaPacjenta.length), path, pacjent.getNode());
         pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).decreaseWolneMiejsca();
                 if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
                     moveNextPatient();
                 }
@@ -237,5 +264,10 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         animationSpeedSlider.valueProperty().addListener((observableValue, number, t1) -> animationSpeed = t1.intValue());
+        logs.setFont(new Font(18));
+        logs.setFill(Paint.valueOf("#7a6a53"));
+        logs.wrappingWidthProperty().bind(scrollPane.widthProperty());
+        scrollPane.setFitToWidth(true);
+        scrollPane.setContent(logs);
     }
 }
