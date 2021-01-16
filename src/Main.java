@@ -26,16 +26,19 @@ public class Main {
 		System.out.println("jarvis wyniki");
 		int i=0;
 		for (Szpital obiekt : result){
-			System.out.println(obiekt.getNazwa());
+			System.out.println(obiekt.getId());
 		}
+		System.out.println("koniec" );
 
 		Dane.clearObjects();
 		Dane.skrzyzowania();
 	
 		
-		Pacjent szpital=new Pacjent(0,9,0);
+		Pacjent szpital=new Pacjent(0,400,400);
 		IsInside isInside=new IsInside();
 		System.out.println(isInside.isInside(result,szpital));
+		Szpital nearest = Jarvis.findNearest(szpital);
+		System.out.println(nearest.getNazwa());
 		
 		int[] test = Dijkstra.drogaPacjenta(1);
 		for (int t : test) {

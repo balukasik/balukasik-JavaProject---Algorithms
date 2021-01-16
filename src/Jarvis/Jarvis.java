@@ -3,6 +3,7 @@ package Jarvis;
 import java.util.ArrayList;
 
 import Data.Szpital;
+import Data.Pacjent;
 import javafx.scene.chart.PieChart.Data;
 import Data.Dane;
 
@@ -11,10 +12,13 @@ import java.util.*;
 public class Jarvis {
 
 
+
+
+
 	public static List<Szpital> convexHull() {
 		List<Szpital> points = new ArrayList<>(Dane.szpitale);
 		List<Szpital> result = new ArrayList<>();
-		Szpital extreme = findExtreme(points);
+		Szpital extreme = Utility.findExtreme(points);
 		result.add(extreme);
 		Szpital p = extreme;
 		Szpital q = extreme;
@@ -27,8 +31,8 @@ public class Jarvis {
 					continue;
 				}
 				r=points.get(i);
-				int turn = orientation(p,q,r);
-				double distance = compare(distance(p,r),distance(p,q));
+				int turn = Utility.orientation(p,q,r);
+				double distance = Utility.compare(Utility.distance(p,r),Utility.distance(p,q));
 				if(turn == -1 || turn == 0 && distance == 1) {
 					q=r;
 				}
@@ -42,39 +46,22 @@ public class Jarvis {
 		return result;
 	}
 
-	static Szpital findExtreme(List<Szpital> points) {
+	public static Szpital findNearest(Pacjent pacjent){
 
-		Szpital p = new Szpital(points.get(0));
-		for(int i=1;i<points.size();i++) {
-			double x = points.get(i).getX();
-			double y = points.get(i).getY();
-			if(x < p.getX() || (x == p.getX() && y<p.getY())) {
-				p=points.get(i);
+		List<Szpital> szpitale = new ArrayList<>(Dane.szpitale);
+		Szpital nearest = szpitale.get(0);
+		for(int i=1;i<szpitale.size();i++){
+			if(Utility.distance(szpitale.get(i),pacjent) < Utility.distance(nearest,pacjent)){
+				nearest = szpitale.get(i);
 			}
-
 		}
-		return p;
+		return nearest;
+
+
+
 	}
 
-	static int orientation(Szpital p, Szpital q, Szpital r)
-	{
-		return compare(((q.getX()-p.getX())*(r.getY()-p.getY())) - ((q.getY()-p.getY())*(r.getX()-p.getX())),0);
-	}
 
-	static int compare(double a, double b)
-	{
-		if(a>b)
-			return 1;
-		else if(a<b)
-			return -1;
-		return 0;
-	}
-
-	static double distance(Szpital p, Szpital q) {
-		double dx = q.getX()-p.getX();
-		double dy = q.getY()-p.getY();
-		return ((dx*dx) + (dy*dy));
-	}
 
 
 
