@@ -5,45 +5,31 @@ import Data.Droga;
 import Data.Pacjent;
 import Data.Szpital;
 import Dijkstra.Dijkstra;
-import Dijkstra.DoubleV2;
 import Jarvis.Jarvis;
 import javafx.animation.PathTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -51,8 +37,6 @@ import java.util.ResourceBundle;
 
 
 public class Controller implements Initializable {
-
-    private Dane data = new Dane();
 
     private final int PANEL_SIZE = 830;
 
@@ -85,15 +69,25 @@ public class Controller implements Initializable {
 
     Text logs = new Text("");
 
-    public Controller() throws FileNotFoundException {
+    public Controller(){
 
     }
 
     @FXML
     public void openMapFileClicked(Event e) {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "\\data"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pliki tekstowe", "*.txt"));
         File file = fileChooser.showOpenDialog(new Stage());
-        data.read(file.getAbsolutePath());
+        if(file == null) {
+            return;
+        }
+        if(Dane.read(file.getAbsolutePath()) == -1) {
+            return;
+        }
+        map.getChildren().removeAll(map.getChildren());
+        logs.setText("");
+        objectName.setText("");
         calculateScaleMap();
 
         Szpital[] borderHospitals = Jarvis.convexHull().toArray(Szpital[]::new);
@@ -149,8 +143,12 @@ public class Controller implements Initializable {
     @FXML
     public void openPatientFileClicked(Event e) {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir") + "\\data"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pliki tekstowe", "*.txt"));
         File file = fileChooser.showOpenDialog(new Stage());
-        data.readPacjent(file.getAbsolutePath());
+        if(Dane.readPacjent(file.getAbsolutePath()) == -1) {
+            return;
+        }
     }
 
     @FXML
@@ -241,6 +239,12 @@ public class Controller implements Initializable {
             logText += "\t" + szpital.getNazwa() + "\n";
             path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
         }
+
+        if(Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).getWolne_lozka() > 0) {
+            logText += "\tPacjent przyjęty";
+        } else {
+            logText += "\tBrak miejsc, pacjent nieprzyjęty\n";
+        }
         logs.setText( logText+ logs.getText());
         PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * drogaPacjenta.length), path, pacjent.getNode());
         pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
@@ -256,9 +260,21 @@ public class Controller implements Initializable {
         pathTransition.play();
     }
 
+    public static void showErrorWindow(String errorText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Okno błędu");
+        alert.setHeaderText(null);
+        alert.setContentText(errorText);
+        alert.showAndWait();
+    }
+
     @FXML
     public void startAnimation(Event e) {
-        moveNextPatient();
+        if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
+            moveNextPatient();
+        } else {
+            showErrorWindow("Proszę dodać pacjentów");
+        }
     }
 
     @Override

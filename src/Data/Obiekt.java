@@ -10,8 +10,8 @@ public class Obiekt extends Szpital{
 		super(obiekt);
 	}
 
-	public Obiekt(String[] data, int lineNum,int id) {
-		super(data,lineNum,id);
+	public Obiekt(String[] data,int id) {
+		super(data,id);
 	}
 
 }

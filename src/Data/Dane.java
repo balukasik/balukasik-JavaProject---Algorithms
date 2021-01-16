@@ -1,5 +1,8 @@
 package Data;
 
+import GUI.Controller;
+import javafx.scene.control.Control;
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.io.BufferedReader;
@@ -11,7 +14,18 @@ public class Dane {
 	public static ArrayList<Droga> drogi = new ArrayList<>();
 	public static ArrayList<Pacjent> pacjenci = new ArrayList<>();
 
-	public static void read(String fileName) {
+	public static void resetDane() {
+		szpitale = new ArrayList<>();
+		drogi = new ArrayList<>();
+		pacjenci = new ArrayList<>();
+	}
+
+	public static void resetPacjenci(){
+		pacjenci = new ArrayList<>();
+	}
+
+	public static int read(String fileName) {
+		resetDane();
 		int sekcja = 0;
 		int lineNum = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName));) {
@@ -25,49 +39,73 @@ public class Dane {
 					} else if (sekcja == 1) {
 						String[] attributes = line.trim().split("\\s*\\|\\s*");
 						if (attributes.length != 6) {
-							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
-							System.exit(0);
+							Controller.showErrorWindow("Zła ilość atrybutów\nLinia: " + lineNum);
+							resetDane();
+							return -1;
 						}
-						szpitale.add(new Szpital(attributes, lineNum));
+						try {
+							szpitale.add(new Szpital(attributes));
+						} catch (NumberFormatException e) {
+							Controller.showErrorWindow("Złe dane w linii " + lineNum);
+							resetDane();
+							return -1;
+						}
 						line = br.readLine();
 
 					} else if (sekcja == 2) {
 						String[] attributes = line.trim().split("\\s*\\|\\s*");
 						if (attributes.length != 4) {
-							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
-							System.exit(0);
+							Controller.showErrorWindow("Zła ilość atrybutów\nLinia: " + lineNum);
+							resetDane();
+							return -1;
 						}
-						szpitale.add(new Obiekt(attributes, lineNum, szpitale.size() + 1));
+						try {
+							szpitale.add(new Obiekt(attributes, szpitale.size() + 1));
+						} catch (NumberFormatException e) {
+							Controller.showErrorWindow("Złe dane w linii " + lineNum);
+							resetDane();
+							return -1;
+						}
 						line = br.readLine();
 
 					} else if (sekcja == 3) {
 						String[] attributes = line.trim().split("\\s*\\|\\s*");
 						if (attributes.length != 4) {
-							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
-							System.exit(0);
+							Controller.showErrorWindow("Zła ilość atrybutów\nLinia: " + lineNum);
+							resetDane();
+							return -1;
 						}
-						drogi.add(new Droga(attributes, lineNum));
+						try {
+							drogi.add(new Droga(attributes));
+						} catch (NumberFormatException e) {
+							Controller.showErrorWindow("Złe dane w linii " + lineNum);
+							resetDane();
+							return -1;
+						}
 						line = br.readLine();
 					} else if (sekcja == 4) {
 						break;
 					} else {
-						System.out.println("brak lini rozpoczynajacej sie zankiem #");
-						System.exit(0);
+						Controller.showErrorWindow("Brak linii rozpoczynającej się znakiem #");
+						resetDane();
+						return -1;
 					}
 				} else {
 					line = br.readLine();
 				}
 			}
 			if (sekcja != 3) {
-				System.out.println("brak 3 zbiorow danych ( Szpitale, Drogi, Obiekty)");
-				System.exit(0);
+				Controller.showErrorWindow("Brak 3 zbiorów danycj (Szpitale, Drogi, Obiekty");
+				resetDane();
+				return -1;
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		return 1;
 	}
 
-	public static void readPacjent(String fileName) {
+	public static int readPacjent(String fileName) {
 		int sekcja = 0;
 		int lineNum = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName));) {
@@ -81,8 +119,9 @@ public class Dane {
 					} else if (sekcja == 1) {
 						String[] attributes = line.trim().split("\\s*\\|\\s*");
 						if (attributes.length != 3) {
-							System.out.println("zla ilosc atrybotow \nLinia: " + lineNum);
-							System.exit(0);
+							Controller.showErrorWindow("Zła ilość atrybutów\nLinia: " + lineNum);
+							resetPacjenci();
+							return -1;
 						}
 						pacjenci.add(new Pacjent(attributes, lineNum));
 						line = br.readLine();
@@ -90,20 +129,23 @@ public class Dane {
 					} else if (sekcja == 2) {
 						break;
 					} else {
-						System.out.println("brak lini rozpoczynajacej sie zankiem #");
-						System.exit(0);
+						Controller.showErrorWindow("Brak linii rozpoczynającej się znakiem #");
+						resetPacjenci();
+						return -1;
 					}
 				} else {
 					line = br.readLine();
 				}
 			}
 			if (sekcja != 1) {
-				System.out.println("brak zbiorow danych (Pacjenci)");
-				System.exit(0);
+				Controller.showErrorWindow("Brak zbioru danych (Pacjenci)");
+				resetPacjenci();
+				return -1;
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		return 1;
 	}
 
 	public static void skrzyzowania() {
