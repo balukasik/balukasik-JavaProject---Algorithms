@@ -5,6 +5,7 @@ import Data.Droga;
 import Data.Pacjent;
 import Data.Szpital;
 import Dijkstra.Dijkstra;
+import IsInside.IsInside;
 import Jarvis.Jarvis;
 import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
@@ -30,7 +31,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ResourceBundle;
@@ -55,6 +58,7 @@ public class Controller implements Initializable {
 
     private Queue<Pacjent> patientsQueue = new LinkedList<>();
 
+    private Szpital[] borderHospitals;
     @FXML
     private AnchorPane map;
 
@@ -90,7 +94,7 @@ public class Controller implements Initializable {
         objectName.setText("");
         calculateScaleMap();
 
-        Szpital[] borderHospitals = Jarvis.convexHull().toArray(Szpital[]::new);
+        borderHospitals = Jarvis.convexHull().toArray(Szpital[]::new);
         Double[] borderPoints = new Double[borderHospitals.length * 2];
         int iter = 0;
         for (Szpital szpital : borderHospitals) {
@@ -227,37 +231,44 @@ public class Controller implements Initializable {
             circle.setFill(Color.RED);
             map.getChildren().add(circle);
         }
-        Path path = new Path();
-        path.getElements().add(new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
-       	//id w�z�a startowego
-        int startId = 1;
-        int[] drogaPacjenta = Dijkstra.drogaPacjenta(startId);
-        String logText = "Pacjent " + pacjent.getId() + ":\n";
-        System.out.println(drogaPacjenta.length);
-        for(int i : drogaPacjenta) {
-            Szpital szpital = Dane.szpitale.get(i);
-            logText += "\t" + szpital.getNazwa() + "\n";
-            path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
-        }
-
-        if(Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).getWolne_lozka() > 0) {
-            logText += "\tPacjent przyjęty";
-        } else {
-            logText += "\tBrak miejsc, pacjent nieprzyjęty\n";
-        }
-        logs.setText( logText+ logs.getText());
-        PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * drogaPacjenta.length), path, pacjent.getNode());
-        pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).decreaseWolneMiejsca();
-                if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
-                    moveNextPatient();
-                }
+        if(IsInside.isInside(Jarvis.convexHull(), pacjent)) {
+            Path path = new Path();
+            path.getElements().add(new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
+            //id w�z�a startowego
+            int startId = 1;
+            int[] drogaPacjenta = Dijkstra.drogaPacjenta(startId);
+            String logText = "Pacjent " + pacjent.getId() + ":\n";
+            System.out.println(drogaPacjenta.length);
+            for (int i : drogaPacjenta) {
+                Szpital szpital = Dane.szpitale.get(i);
+                logText += "\t" + szpital.getNazwa() + "\n";
+                path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
             }
-        });
 
-        pathTransition.play();
+            if (Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).getWolne_lozka() > 0) {
+                logText += "\tPacjent przyjęty";
+            } else {
+                logText += "\tBrak miejsc, pacjent nieprzyjęty\n";
+            }
+            logs.setText(logText + logs.getText());
+            PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * drogaPacjenta.length), path, pacjent.getNode());
+            pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1]).decreaseWolneMiejsca();
+                    if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
+                        moveNextPatient();
+                    }
+                }
+            });
+
+            pathTransition.play();
+        } else {
+            logs.setText("Pacjent " + pacjent.getId() + " poza granicami kraju\n" + logs.getText());
+            if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
+                moveNextPatient();
+            }
+        }
     }
 
     public static void showErrorWindow(String errorText) {
