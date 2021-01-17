@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="970.0" prefWidth="1300.0" style="-fx-background-color: #948C75;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="970.0" prefWidth="1300.0" scaleShape="false" style="-fx-background-color: #948C75;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
     <children>
         <AnchorPane layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="870.0" style="-fx-background-color: #D9CEB2; -fx-background-radius: 10;">
             <children>
@@ -27,6 +27,7 @@
                               </Text>
                               <Text fx:id="hospitalNumberOfBeds" fill="#948c75" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba łóżek: " />
                               <Text fx:id="hospitalNumberOfBedsLeft" fill="#948c75" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba wolnych łóżek:" />
+                              <Text fx:id="numberNotAcceptedPatients" fill="#948c75" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba oczekujących pacjentów:" />
                            </children>
                         </VBox>
                      </children>

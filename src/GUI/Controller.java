@@ -85,6 +85,9 @@ public class Controller implements Initializable {
 	private Text hospitalNumberOfBedsLeft;
 
 	@FXML
+	private Text numberNotAcceptedPatients;
+
+	@FXML
 	private TextFlow objectInfoWindow;
 
 	@FXML
@@ -148,6 +151,7 @@ public class Controller implements Initializable {
 					hospitalNameWindow.setText(szpital.getNazwa());
 					hospitalNumberOfBeds.setText("Liczba łóżek: " + szpital.getLozka());
 					hospitalNumberOfBedsLeft.setText("Liczba wolnych łóżek: " + szpital.getWolne_lozka());
+					numberNotAcceptedPatients.setText("Liczba oczekujących pacjentów: " + szpital.getLiczbaOczekujacychPacjentów());
 					hospitalInfoWindow.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent1 -> hideWindow.playFromStart());
 					hideWindow.setOnFinished(e2 -> hospitalInfoWindow.setVisible(false));
 					setPopupWindowPosition(hospitalInfoWindow, circle.getCenterX(), circle.getCenterY());
@@ -279,7 +283,6 @@ public class Controller implements Initializable {
 			Path path = new Path();
 			path.getElements().add(
 					new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
-			// TODO id szpitala startowego
 			int startId = Jarvis.findNearest(pacjent).getId();
 			Dijkstra d = new Dijkstra(Dane.szpitale);
 			int[] drogaPacjenta = d.drogaPacjenta(startId);
@@ -301,6 +304,7 @@ public class Controller implements Initializable {
 				patientSummaryText.setText("\tPacjent przyjęty\n");
 				patientSummaryText.setFill(acceptedPatientColor);
 			} else {
+				Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1] - 1).increaseLiczbaOczekujacychPacjentow();
 				patientSummaryText.setText("\tBrak miejsc, pacjent nieprzyjęty\n");
 				patientSummaryText.setFill(notAcceptedPatientColor);
 			}

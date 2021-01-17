@@ -8,6 +8,7 @@ public class Szpital {
     private double y;
     private int lozka;
     private int wolneMiejsca;
+    private int liczbaOczekujacychPacjentów;
 
 
     public Szpital(int id, String nazwa, double x, double y, int lozka, int wolneMiejsca) {
@@ -17,6 +18,7 @@ public class Szpital {
         this.y = y;
         this.lozka = lozka;
         this.wolneMiejsca = wolneMiejsca;
+        liczbaOczekujacychPacjentów = 0;
     }
 
     public Szpital(String[] data) throws NumberFormatException {
@@ -26,6 +28,7 @@ public class Szpital {
         this.y = Integer.parseInt(data[3]);
         this.lozka = Integer.parseInt(data[4]);
         this.wolneMiejsca = Integer.parseInt(data[5]);
+        liczbaOczekujacychPacjentów = 0;
     }
 
 
@@ -36,6 +39,7 @@ public class Szpital {
         this.y = Integer.parseInt(data[3]);
         this.lozka = 0;
         this.wolneMiejsca = 0;
+        liczbaOczekujacychPacjentów = 0;
     }
 
     public Szpital(int id, String nazwa, int x, int y, int wolne_lozka) {
@@ -48,6 +52,7 @@ public class Szpital {
         this.y = obiekt.getY();
         this.lozka = obiekt.getLozka();
         this.wolneMiejsca = obiekt.getWolne_lozka();
+        liczbaOczekujacychPacjentów = 0;
     }
 
     public String getNazwa() {
@@ -80,5 +85,13 @@ public class Szpital {
 
     public void decreaseWolneMiejsca() {
         wolneMiejsca--;
+    }
+
+    public void increaseLiczbaOczekujacychPacjentow() {
+        liczbaOczekujacychPacjentów++;
+    }
+
+    public int getLiczbaOczekujacychPacjentów(){
+        return liczbaOczekujacychPacjentów;
     }
 }

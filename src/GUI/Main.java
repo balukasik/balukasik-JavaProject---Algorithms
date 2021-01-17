@@ -13,16 +13,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private final int ANIMATION_PANEL_START_X = 14;
-    private final int ANIMATION_PANEL_START_Y = 14;
-    private final int ANIMATION_PANEL_WIDTH = 870;
-    private final int ANIMATION_PANEL_HEIGHT = 700;
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Optymalizacja przewozu pacjentów");
         Scene mainScene = new Scene(root);
         primaryStage.setScene(mainScene);
 
