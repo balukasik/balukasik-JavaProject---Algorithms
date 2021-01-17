@@ -144,34 +144,29 @@ public class Controller implements Initializable {
 		for (Szpital szpital : Dane.szpitale) {
 			Circle circle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 10);
 			circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
-				PauseTransition hideWindow = new PauseTransition(Duration.seconds(5));
-
 				if(szpital.getLozka() > 0) {
 					hospitalInfoWindow.toFront();
 					hospitalNameWindow.setText(szpital.getNazwa());
 					hospitalNumberOfBeds.setText("Liczba łóżek: " + szpital.getLozka());
 					hospitalNumberOfBedsLeft.setText("Liczba wolnych łóżek: " + szpital.getWolne_lozka());
 					numberNotAcceptedPatients.setText("Liczba oczekujących pacjentów: " + szpital.getLiczbaOczekujacychPacjentów());
-					hospitalInfoWindow.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent1 -> hideWindow.playFromStart());
-					hideWindow.setOnFinished(e2 -> hospitalInfoWindow.setVisible(false));
-					setPopupWindowPosition(hospitalInfoWindow, circle.getCenterX(), circle.getCenterY());
-					hideWindow.play();
 					hospitalInfoWindow.setVisible(true);
+					setPopupWindowPosition(hospitalInfoWindow, circle.getCenterX(), circle.getCenterY());
 				} else {
 					objectInfoWindow.toFront();
 					objectNameWindow.setText(szpital.getNazwa());
-					objectInfoWindow.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent1 -> hideWindow.playFromStart());
-					hideWindow.setOnFinished(e2 -> objectInfoWindow.setVisible(false));
-					setPopupWindowPosition(objectInfoWindow, circle.getCenterX(), circle.getCenterY());
-					hideWindow.play();
-					objectInfoWindow.setVisible(true);
+                    objectInfoWindow.setVisible(true);
+                    setPopupWindowPosition(objectInfoWindow, circle.getCenterX(), circle.getCenterY());
 				}
+			});
+			circle.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
+				hospitalInfoWindow.setVisible(false);
+				objectInfoWindow.setVisible(false);
 			});
 			map.getChildren().add(circle);
 		}
 		Dane.clearObjects();
 		Dane.skrzyzowania();
-
 		map.addEventHandler(MouseEvent.MOUSE_CLICKED, this::addPatientOnClick);
 
 	}
@@ -314,7 +309,9 @@ public class Controller implements Initializable {
 			pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent actionEvent) {
-					Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1] - 1).decreaseWolneMiejsca();
+					if (Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1] - 1).getWolne_lozka() != 0) {
+						Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1] - 1).decreaseWolneMiejsca();
+					}
 					if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
 						moveNextPatient();
 					}
