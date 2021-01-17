@@ -12,7 +12,7 @@ public class Main {
 
 	
 	public static void main(String[] args) {
-
+		/*
 		Dane.read("data/daneTestowe.txt");
 		Dane.readPacjent("data/daneTestowePacjenci.txt");
 
@@ -43,7 +43,7 @@ public class Main {
 		System.out.println(nearest.getNazwa());
 		
 		
-
+		*/
 	}
 
 }

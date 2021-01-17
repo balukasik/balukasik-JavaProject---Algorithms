@@ -1,11 +1,11 @@
 .button {
-       -fx-background-color: #D9CEB2;
-       -fx-background-radius: 10;
-   }
+    -fx-background-color: #D9CEB2;
+    -fx-background-radius: 10;
+}
 
 .button:hover {
-       -fx-background-color: #99B2B7;
-   }
+    -fx-background-color: #99B2B7;
+}
 
 .scroll-pane {
     -fx-background-color: #D9CEB2;
