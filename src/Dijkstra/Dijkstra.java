@@ -55,6 +55,9 @@ public class Dijkstra {
 	}
 
 	public int[] drogaPacjenta(int startId) {
+		if (Dane.szpitale.get(startId-1).getWolne_lozka()>0) {
+			return new int[] {startId};
+		}
 		int[] cel = new int[Dane.szpitale.size()];
 		cel[0] = startId;
 		ArrayList<Integer> trasa = new ArrayList<>();

@@ -76,9 +76,9 @@ public class IsInside {
         return false;
     }
 
-    public static boolean isInside(List<Szpital> points, Pacjent p)
+    public static boolean isInside(Szpital[] points, Pacjent p)
     {
-        int n=points.size();
+        int n=points.length;
         Point convexHull[]=new Point[n];
         int j=0;
         for(Szpital obiekt : points){

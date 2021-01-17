@@ -13,6 +13,7 @@ public class Dane {
 	public static ArrayList<Szpital> szpitale = new ArrayList<>();
 	public static ArrayList<Droga> drogi = new ArrayList<>();
 	public static ArrayList<Pacjent> pacjenci = new ArrayList<>();
+	public static int patientCounter;
 
 	public static void resetDane() {
 		szpitale = new ArrayList<>();
@@ -239,6 +240,11 @@ public class Dane {
 		drogi = new ArrayList<>();
 		pacjenci = new ArrayList<>();
 
+	}
+
+	public static int getPatientNewId() {
+		
+		return 0;
 	}
 
 }

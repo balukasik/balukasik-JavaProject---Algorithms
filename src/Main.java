@@ -18,9 +18,8 @@ public class Main {
 
 
 		
-		List<Szpital> result = new ArrayList<Szpital>();
 		Jarvis jarvis=new Jarvis();
-		result=jarvis.convexHull();
+		Szpital[] result=jarvis.convexHull().toArray(Szpital[]::new);;
 
 
 		System.out.println("jarvis wyniki");
