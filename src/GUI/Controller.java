@@ -235,12 +235,10 @@ public class Controller implements Initializable {
 			Path path = new Path();
 			path.getElements().add(
 					new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
-			// TODO id szpitala startowego
 			int startId = Jarvis.findNearest(pacjent).getId();
 			Dijkstra d = new Dijkstra(Dane.szpitale);
 			int[] drogaPacjenta = d.drogaPacjenta(startId);
 			String logText = "Pacjent " + pacjent.getId() + ":\n";
-			System.out.println(drogaPacjenta.length);
 			for (int i : drogaPacjenta) {
 				Szpital szpital = Dane.szpitale.get(i - 1);
 				logText += "\t" + szpital.getNazwa() + "\n";
