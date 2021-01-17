@@ -138,7 +138,7 @@ public class Dane {
 							resetPacjenci();
 							return -1;
 						}
-						pacjenci.add(new Pacjent(attributes, lineNum));
+						pacjenci.add(new Pacjent(attributes, lineNum, fileName));
 						line = br.readLine();
 
 					} else if (sekcja == 2) {

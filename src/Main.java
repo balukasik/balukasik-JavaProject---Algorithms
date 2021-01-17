@@ -33,7 +33,7 @@ public class Main {
 		Dane.skrzyzowania();
 	
 		
-		Pacjent szpital=new Pacjent(0,400,400);
+		Pacjent szpital=new Pacjent(0,400,400, "Test");
 		for(Droga d : Dane.drogi) {
 			System.out.println(d.getIdSzpitala1()+" "+ d.getIdSzpitala2()+" "+ d.getOdlglosc());
 		}

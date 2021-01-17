@@ -26,6 +26,7 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -70,7 +71,14 @@ public class Controller implements Initializable {
 	@FXML
 	private ScrollPane scrollPane;
 
-	Text logs = new Text("");
+	@FXML
+	private TextFlow logsTextFlow;
+
+	private final Font logHeaderFont = Font.font("System", FontWeight.BOLD, 18);
+	private final Font logHospitalFont = Font.font("System", 16);
+	private final Color textColor = Color.valueOf("#948C75");
+	private final Color notAcceptedPatientColor = Color.valueOf("#990000");
+	private final Color acceptedPatientColor = Color.valueOf("#009900");
 
 	public Controller() {
 
@@ -89,7 +97,7 @@ public class Controller implements Initializable {
 			return;
 		}
 		map.getChildren().removeAll(map.getChildren());
-		logs.setText("");
+		logsTextFlow.getChildren().removeAll();
 		objectName.setText("");
 		calculateScaleMap();
 
@@ -160,7 +168,7 @@ public class Controller implements Initializable {
 		MouseEvent mouseEvent = (MouseEvent) e;
 		int x = convertPointXFromScene(mouseEvent.getSceneX() - 34);
 		int y = convertPointYFromScene(mouseEvent.getSceneY() - 34);
-		Pacjent newPatient = new Pacjent(Dane.getPatientNewId(), x, y);
+		Pacjent newPatient = new Pacjent(Dane.getPatientNewId(), x, y, "GUI");
 		Circle circle = new Circle(mouseEvent.getSceneX() - 34, mouseEvent.getSceneY() - 34, 5);
 		newPatient.setNode(circle);
 		patientsQueue.add(newPatient);
@@ -235,22 +243,32 @@ public class Controller implements Initializable {
 			Path path = new Path();
 			path.getElements().add(
 					new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
+			// TODO id szpitala startowego
 			int startId = Jarvis.findNearest(pacjent).getId();
 			Dijkstra d = new Dijkstra(Dane.szpitale);
 			int[] drogaPacjenta = d.drogaPacjenta(startId);
-			String logText = "Pacjent " + pacjent.getId() + ":\n";
+			Text patientLogHeader = new Text("Pacjent " + pacjent.getId() + " z " + pacjent.getFrom() + ":\n");
+			patientLogHeader.setFont(logHeaderFont);
+			patientLogHeader.setFill(textColor);
+			logsTextFlow.getChildren().add(patientLogHeader);
 			for (int i : drogaPacjenta) {
 				Szpital szpital = Dane.szpitale.get(i - 1);
-				logText += "\t" + szpital.getNazwa() + "\n";
+				Text hospitalText = new Text("\t" + szpital.getNazwa() + "\n");
+				hospitalText.setFont(logHospitalFont);
+				hospitalText.setFill(textColor);
+				logsTextFlow.getChildren().add(hospitalText);
 				path.getElements().add(new LineTo(convertPointX(szpital.getX()), convertPointY(szpital.getY())));
 			}
-
+			Text patientSummaryText = new Text();
+			patientSummaryText.setFont(logHospitalFont);
 			if (Dane.szpitale.get(drogaPacjenta[drogaPacjenta.length - 1] - 1).getWolne_lozka() > 0) {
-				logText += "\tPacjent przyjęty";
+				patientSummaryText.setText("\tPacjent przyjęty\n");
+				patientSummaryText.setFill(acceptedPatientColor);
 			} else {
-				logText += "\tBrak miejsc, pacjent nieprzyjęty\n";
+				patientSummaryText.setText("\tBrak miejsc, pacjent nieprzyjęty\n");
+				patientSummaryText.setFill(notAcceptedPatientColor);
 			}
-			logs.setText(logText + logs.getText());
+			logsTextFlow.getChildren().add(patientSummaryText);
 			PathTransition pathTransition = new PathTransition(Duration.millis(animationSpeed * drogaPacjenta.length),
 					path, pacjent.getNode());
 			pathTransition.setOnFinished(new EventHandler<ActionEvent>() {
@@ -265,7 +283,10 @@ public class Controller implements Initializable {
 
 			pathTransition.play();
 		} else {
-			logs.setText("Pacjent " + pacjent.getId() + " poza granicami kraju\n" + logs.getText());
+			Text abroadPatientLogHeader = new Text("Pacjent " + pacjent.getId() + " z " + pacjent.getFrom() + " poza granicami kraju\n");
+			abroadPatientLogHeader.setFont(logHeaderFont);
+			abroadPatientLogHeader.setFill(notAcceptedPatientColor);
+			logsTextFlow.getChildren().add(abroadPatientLogHeader);
 			if (patientsQueue.size() != 0 || Dane.pacjenci.size() != 0) {
 				moveNextPatient();
 			}
@@ -293,10 +314,8 @@ public class Controller implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		animationSpeedSlider.valueProperty()
 				.addListener((observableValue, number, t1) -> animationSpeed = t1.intValue());
-		logs.setFont(new Font(18));
-		logs.setFill(Paint.valueOf("#7a6a53"));
-		logs.wrappingWidthProperty().bind(scrollPane.widthProperty());
 		scrollPane.setFitToWidth(true);
-		scrollPane.setContent(logs);
+		scrollPane.setContent(logsTextFlow);
+		scrollPane.vvalueProperty().bind(logsTextFlow.heightProperty());
 	}
 }
