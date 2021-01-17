@@ -261,4 +261,14 @@ public class Dane {
 		return patientCounter;
 	}
 
+	public static int szpitaleSize() {
+		int size = 0;
+		for (Szpital s : szpitale) {
+			if(s.getLozka()>0) {
+				size ++;
+			}
+		}
+		return size;
+	}
+
 }

@@ -19,7 +19,6 @@ public class Dijkstra {
 
 	private DoubleV2[] algorithm(int startId) {
 		DoubleV2[] d = new DoubleV2[nodes.size()];
-		;
 		for (int i = 0; i < nodes.size(); i++) {
 			d[i] = new DoubleV2(Double.MAX_VALUE);
 			d[i].id = i + 1;
@@ -55,15 +54,15 @@ public class Dijkstra {
 	}
 
 	public int[] drogaPacjenta(int startId) {
-		if (Dane.szpitale.get(startId-1).getWolne_lozka()>0) {
-			return new int[] {startId};
+		if (Dane.szpitale.get(startId - 1).getWolne_lozka() > 0) {
+			return new int[] { startId };
 		}
-		int[] cel = new int[Dane.szpitale.size()];
+		int[] cel = new int[Dane.szpitaleSize()];
 		cel[0] = startId;
 		ArrayList<Integer> trasa = new ArrayList<>();
 		trasa.add(startId);
 		int next = startId;
-		for (int i = 1; i < Dane.szpitale.size(); i++) {
+		for (int i = 1; i < Dane.szpitaleSize(); i++) {
 			Dijkstra dijkstra = new Dijkstra(Dane.szpitale);
 			DoubleV2 d[] = dijkstra.algorithm(next);
 			Arrays.sort(d);
@@ -77,7 +76,7 @@ public class Dijkstra {
 			}
 			if (Dane.szpitale.get(cel[i] - 1).getWolne_lozka() > 0) {
 				int[] result = new int[trasa.size()];
-				for (int z =0; z < result.length;z++) {
+				for (int z = 0; z < result.length; z++) {
 					result[z] = trasa.get(z);
 				}
 				return result;
@@ -102,7 +101,6 @@ public class Dijkstra {
 		}
 
 	}
-
 
 	private static boolean notContains(int[] ls, int a) {
 		for (int i : ls) {

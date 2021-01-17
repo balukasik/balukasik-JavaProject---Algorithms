@@ -144,7 +144,7 @@ public class Controller implements Initializable {
 		for (Szpital szpital : Dane.szpitale) {
 			Circle circle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 10);
 			circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
-				PauseTransition hideWindow = new PauseTransition(Duration.seconds(2));
+				PauseTransition hideWindow = new PauseTransition(Duration.seconds(5));
 
 				if(szpital.getLozka() > 0) {
 					hospitalInfoWindow.toFront();
