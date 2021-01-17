@@ -8,6 +8,7 @@ import Dijkstra.Dijkstra;
 import IsInside.IsInside;
 import Jarvis.Jarvis;
 import javafx.animation.PathTransition;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -66,13 +67,28 @@ public class Controller implements Initializable {
 	private Slider animationSpeedSlider;
 
 	@FXML
-	private Label objectName;
-
-	@FXML
 	private ScrollPane scrollPane;
 
 	@FXML
 	private TextFlow logsTextFlow;
+
+	@FXML
+	private TextFlow hospitalInfoWindow;
+
+	@FXML
+	private Text hospitalNameWindow;
+
+	@FXML
+	private Text hospitalNumberOfBeds;
+
+	@FXML
+	private Text hospitalNumberOfBedsLeft;
+
+	@FXML
+	private TextFlow objectInfoWindow;
+
+	@FXML
+	private Text objectNameWindow;
 
 	private final Font logHeaderFont = Font.font("System", FontWeight.BOLD, 18);
 	private final Font logHospitalFont = Font.font("System", 16);
@@ -97,8 +113,8 @@ public class Controller implements Initializable {
 			return;
 		}
 		map.getChildren().removeAll(map.getChildren());
+		map.getChildren().addAll(hospitalInfoWindow, objectInfoWindow);
 		logsTextFlow.getChildren().removeAll();
-		objectName.setText("");
 		calculateScaleMap();
 
 		borderHospitals = Jarvis.convexHull().toArray(Szpital[]::new);
@@ -124,25 +140,29 @@ public class Controller implements Initializable {
 
 		for (Szpital szpital : Dane.szpitale) {
 			Circle circle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 10);
-			Circle enteredCircle = new Circle(convertPointX(szpital.getX()), convertPointY(szpital.getY()), 20);
-			enteredCircle.setFill(Paint.valueOf("#948C75"));
-			Text freeSpaceText = new Text(circle.getCenterX(), circle.getCenterY(),
-					Integer.toString(szpital.getWolne_lozka()));
-			freeSpaceText.setFont(Font.font("System", FontWeight.BOLD, 12));
-			freeSpaceText.setX(freeSpaceText.getX() - freeSpaceText.getLayoutBounds().getWidth() / 2);
-			freeSpaceText.setY(freeSpaceText.getY() + freeSpaceText.getLayoutBounds().getHeight() / 4);
-			enteredCircle.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> {
-				map.getChildren().remove(enteredCircle);
-				map.getChildren().remove(freeSpaceText);
-				objectName.setText(szpital.getNazwa());
-			});
 			circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> {
-				objectName.setText(szpital.getNazwa());
-				freeSpaceText.setText(Integer.toString(szpital.getWolne_lozka()));
-				map.getChildren().add(enteredCircle);
-				map.getChildren().add(freeSpaceText);
+				PauseTransition hideWindow = new PauseTransition(Duration.seconds(2));
+
+				if(szpital.getLozka() > 0) {
+					hospitalInfoWindow.toFront();
+					hospitalNameWindow.setText(szpital.getNazwa());
+					hospitalNumberOfBeds.setText("Liczba łóżek: " + szpital.getLozka());
+					hospitalNumberOfBedsLeft.setText("Liczba wolnych łóżek: " + szpital.getWolne_lozka());
+					hospitalInfoWindow.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent1 -> hideWindow.playFromStart());
+					hideWindow.setOnFinished(e2 -> hospitalInfoWindow.setVisible(false));
+					setPopupWindowPosition(hospitalInfoWindow, circle.getCenterX(), circle.getCenterY());
+					hideWindow.play();
+					hospitalInfoWindow.setVisible(true);
+				} else {
+					objectInfoWindow.toFront();
+					objectNameWindow.setText(szpital.getNazwa());
+					objectInfoWindow.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent1 -> hideWindow.playFromStart());
+					hideWindow.setOnFinished(e2 -> objectInfoWindow.setVisible(false));
+					setPopupWindowPosition(objectInfoWindow, circle.getCenterX(), circle.getCenterY());
+					hideWindow.play();
+					objectInfoWindow.setVisible(true);
+				}
 			});
-			circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> objectName.setText(szpital.getNazwa()));
 			map.getChildren().add(circle);
 		}
 		Dane.clearObjects();
@@ -150,6 +170,22 @@ public class Controller implements Initializable {
 
 		map.addEventHandler(MouseEvent.MOUSE_CLICKED, this::addPatientOnClick);
 
+	}
+
+	public void setPopupWindowPosition(TextFlow textFlow, double windowPositionX, double windowPositionY) {
+		if(windowPositionX < middlePanel && windowPositionY > middlePanel) {
+			textFlow.setLayoutX(windowPositionX);
+			textFlow.setLayoutY(windowPositionY - textFlow.getHeight());
+		} else if (windowPositionX > middlePanel && windowPositionY < middlePanel) {
+			textFlow.setLayoutX(windowPositionX - textFlow.getWidth());
+			textFlow.setLayoutY(windowPositionY);
+		} else if (windowPositionX > middlePanel && windowPositionY > middlePanel) {
+			textFlow.setLayoutX(windowPositionX - textFlow.getWidth());
+			textFlow.setLayoutY(windowPositionY - textFlow.getHeight());
+		} else {
+			textFlow.setLayoutX(windowPositionX);
+			textFlow.setLayoutY(windowPositionY);
+		}
 	}
 
 	@FXML
