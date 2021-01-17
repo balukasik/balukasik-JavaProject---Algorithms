@@ -257,8 +257,8 @@ public class Dane {
 	}
 
 	public static int getPatientNewId() {
-
-		return 0;
+		patientCounter++;
+		return patientCounter;
 	}
 
 }
