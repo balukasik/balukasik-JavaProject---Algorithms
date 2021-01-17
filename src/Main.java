@@ -32,15 +32,13 @@ public class Main {
 		Dane.clearObjects();
 		Dane.skrzyzowania();
 	
-		
+		for(Droga d : Dane.drogi) {
+			System.out.println(d.getIdSzpitala1()+" "+ d.getIdSzpitala2()+" "+ d.getOdlglosc());
+		}
 		Pacjent szpital=new Pacjent(0,9,0);
 		IsInside isInside=new IsInside();
 		System.out.println(isInside.isInside(result,szpital));
 		
-		int[] test = Dijkstra.drogaPacjenta(1);
-		for (int t : test) {
-			System.out.println(t);
-		}
 		
 
 	}
