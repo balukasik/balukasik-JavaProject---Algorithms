@@ -35,15 +35,15 @@ public class Main {
 	
 		
 		Pacjent szpital=new Pacjent(0,400,400);
+		for(Droga d : Dane.drogi) {
+			System.out.println(d.getIdSzpitala1()+" "+ d.getIdSzpitala2()+" "+ d.getOdlglosc());
+		}
+		Pacjent szpital=new Pacjent(0,9,0);
 		IsInside isInside=new IsInside();
 		System.out.println(isInside.isInside(result,szpital));
 		Szpital nearest = Jarvis.findNearest(szpital);
 		System.out.println(nearest.getNazwa());
 		
-		int[] test = Dijkstra.drogaPacjenta(1);
-		for (int t : test) {
-			System.out.println(t);
-		}
 		
 
 	}

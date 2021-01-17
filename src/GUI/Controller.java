@@ -139,6 +139,8 @@ public class Controller implements Initializable {
             circle.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> objectName.setText(szpital.getNazwa()));
             map.getChildren().add(circle);
         }
+        Dane.clearObjects();
+        Dane.skrzyzowania();
 
         map.addEventHandler(MouseEvent.MOUSE_CLICKED, this::addPatientOnClick);
 
@@ -234,9 +236,10 @@ public class Controller implements Initializable {
         if(IsInside.isInside(Jarvis.convexHull(), pacjent)) {
             Path path = new Path();
             path.getElements().add(new MoveTo(((Circle) pacjent.getNode()).getCenterX(), ((Circle) pacjent.getNode()).getCenterY()));
-            //id w�z�a startowego
+            //TODO id szpitala startowego
             int startId = 1;
-            int[] drogaPacjenta = Dijkstra.drogaPacjenta(startId);
+            Dijkstra d = new Dijkstra(Dane.szpitale);
+            int[] drogaPacjenta = d.drogaPacjenta(startId);
             String logText = "Pacjent " + pacjent.getId() + ":\n";
             System.out.println(drogaPacjenta.length);
             for (int i : drogaPacjenta) {
