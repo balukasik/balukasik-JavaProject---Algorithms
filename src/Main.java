@@ -38,7 +38,6 @@ public class Main {
 		for(Droga d : Dane.drogi) {
 			System.out.println(d.getIdSzpitala1()+" "+ d.getIdSzpitala2()+" "+ d.getOdlglosc());
 		}
-		Pacjent szpital=new Pacjent(0,9,0);
 		IsInside isInside=new IsInside();
 		System.out.println(isInside.isInside(result,szpital));
 		Szpital nearest = Jarvis.findNearest(szpital);
