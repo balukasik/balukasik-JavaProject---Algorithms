@@ -21,7 +21,7 @@ public class Dane {
 		pacjenci = new ArrayList<>();
 	}
 
-	public static void resetPacjenci(){
+	public static void resetPacjenci() {
 		pacjenci = new ArrayList<>();
 	}
 
@@ -78,6 +78,10 @@ public class Dane {
 						}
 						try {
 							drogi.add(new Droga(attributes));
+							if (validateSzpitalId(Integer.parseInt(attributes[1])) == false
+									|| validateSzpitalId(Integer.parseInt(attributes[2])) == false) {
+								throw new NumberFormatException();
+							}
 						} catch (NumberFormatException e) {
 							Controller.showErrorWindow("Złe dane w linii " + lineNum);
 							resetDane();
@@ -104,6 +108,16 @@ public class Dane {
 			ioe.printStackTrace();
 		}
 		return 1;
+	}
+
+	private static boolean validateSzpitalId(int id) {
+		for (Szpital s : szpitale) {
+			if (s.getId() == id && s.getLozka()>0) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	public static int readPacjent(String fileName) {
@@ -243,7 +257,7 @@ public class Dane {
 	}
 
 	public static int getPatientNewId() {
-		
+
 		return 0;
 	}
 
