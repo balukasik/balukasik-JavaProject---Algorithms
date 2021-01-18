@@ -1,8 +1,9 @@
-package Jarvis;
+
 
 import Data.Dane;
 import Data.Pacjent;
 import Data.Szpital;
+import Jarvis.Jarvis;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,8 +37,8 @@ public class JarvisTest {
     public void findNearest() {
         Dane.read("data/daneTestowe.txt");
 
-        Pacjent pacjent1=new Pacjent(0,0,0);
-        Pacjent pacjent2=new Pacjent(0,400,400);
+        Pacjent pacjent1=new Pacjent(0,0,0,"a");
+        Pacjent pacjent2=new Pacjent(0,400,400,"a");
 
 
         Szpital nearest1 = Jarvis.findNearest(pacjent1);
