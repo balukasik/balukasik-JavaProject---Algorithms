@@ -258,7 +258,7 @@ public class Controller implements Initializable {
             pacjent = patientsQueue.remove();
         } else {
             pacjent = Dane.pacjenci.remove(0);
-            if(pacjent.getX() < mapLeftBorder || pacjent.getX() > mapRightBorder || pacjent.getY() < mapDownBorder || pacjent.getY() > mapUpBorder) {
+            if (pacjent.getX() < mapLeftBorder || pacjent.getX() > mapRightBorder || pacjent.getY() < mapDownBorder || pacjent.getY() > mapUpBorder) {
                 Text abroadPatientLogHeader = new Text("Pacjent " + pacjent.getId() + " z " + pacjent.getFrom() + " poza granicami kraju\n");
                 abroadPatientLogHeader.setFont(logHeaderFont);
                 abroadPatientLogHeader.setFill(notAcceptedPatientColor);

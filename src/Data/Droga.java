@@ -1,7 +1,5 @@
 package Data;
 
-import GUI.Controller;
-
 public class Droga {
 
     private int id;

@@ -1,15 +1,13 @@
 package IsInside;
 
-public class Point
-{
+public class Point {
     double x;
     double y;
 
-    Point()
-    {}
+    Point() {
+    }
 
-    Point(double p, double q)
-    {
+    Point(double p, double q) {
         x = p;
         y = q;
     }

@@ -75,10 +75,6 @@ public class Szpital {
         return wolneMiejsca;
     }
 
-    public void setWolne_lozka(int wolneMiejsca) {
-        this.wolneMiejsca = wolneMiejsca;
-    }
-
     public int getId() {
         return id;
     }
@@ -91,7 +87,7 @@ public class Szpital {
         liczbaOczekujacychPacjentów++;
     }
 
-    public int getLiczbaOczekujacychPacjentów(){
+    public int getLiczbaOczekujacychPacjentów() {
         return liczbaOczekujacychPacjentów;
     }
 }
